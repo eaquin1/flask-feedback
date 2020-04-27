@@ -39,7 +39,12 @@ def register():
 def users(username):
     """Render users page"""
     user = User.query.filter_by(username=username).first()
-    return render_template("user.html", user=user)
+    if 'username' not in session:
+        flash('Please login')
+        return redirect('/login')
+    else:
+        return render_template("user.html", user=user)
+        
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
